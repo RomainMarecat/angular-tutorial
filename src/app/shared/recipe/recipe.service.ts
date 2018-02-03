@@ -9,18 +9,14 @@ import { map, filter } from 'rxjs/operators';
 @Injectable()
 export class RecipeService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  getRecipes() {
-    this.http.get<Array<SimpleRecipe>>(`assets/data/recipe.json`)
+  getRecipes(): Observable < Array < SimpleRecipe >> {
+    return this.http.get < Array < SimpleRecipe >> (`assets/data/recipe.json`)
       .pipe(
-      map((recipes: Array<Recipe>) => recipes),
-      filter((recipes: Array<SimpleRecipe>) => recipes
-
-          /*recipes.map((recipe: SimpleRecipe) => {
-            return this.recipe.name.includes('Pizza');
-          })*/
-          )
+        map((recipes: Array < SimpleRecipe > ) => recipes.filter((recipe: SimpleRecipe) => {
+          return recipe.name.includes('Pizza');
+        }))
       );
   }
 }
