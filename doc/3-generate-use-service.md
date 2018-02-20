@@ -106,8 +106,54 @@ export class RecipeService {
 Il va falloir maintenant remplir ce tableau vide de données. 
 Nous allons appeller un fichier JSON pour récupérer les données pour ensuite les renvoyer sous forme d'Observable d'un tableau de recette
 
+Préalablement, il faut ajouter un fichier de données fake comme ceci dans `src/assets/data/recipe.json`
 
-...
+```
+[{
+  "id": 1,
+  "name": "Boeuf Bourguignon"
+}, {
+  "id": 2,
+  "name": "Crèpes au sucre"
+}, {
+  "id": 3,
+  "name": "Pizza Parma"
+}, {
+  "id": 4,
+  "name": "Spaggethis bolognaise"
+}, {
+  "id": 5,
+  "name": "Pizza Tartiflette"
+}]
+```
+
+
+```
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
+import { Recipe } from './recipe';
+import { SimpleRecipe } from './simple-recipe';
+import { map, filter } from 'rxjs/operators';
+
+@Injectable()
+export class RecipeService {
+
+  constructor(private http: HttpClient) {}
+
+  getRecipes(): Observable < Array < SimpleRecipe >> {
+    return this.http.get < Array < SimpleRecipe >> (`assets/data/recipe.json`)
+      .pipe(
+        map((recipes: Array < SimpleRecipe > ) => recipes.filter((recipe: SimpleRecipe) => {
+          return recipe.name.includes('Pizza');
+        }))
+      );
+  }
+}
+```
+
+
+Par défaut, la fonction getRecipes va boucler sur le tableau de recette. Elle incluera les recettes qui contiennent le nom Pizza. C'est à dire 2 recettes dans notre cas
 
 
 Dans le prochain chapitre, nous regarderons comment mocker cette appel à un webservice et comment le tester correctement.

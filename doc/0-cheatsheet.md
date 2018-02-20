@@ -76,3 +76,25 @@ Between the template and the component
 * In template ```(event)="classMethod($event)```
 * In component ```classMethod(event: Event) { }```
 
+
+### Events Communication
+** In parent
+* In template ```<app-child [inputEntry]="someVariable" (outputEvent)="someFunction($event)"> ```
+* In component 
+``` 
+someFunction(event: string) {
+...
+}
+``` 
+** In child
+* In component 
+``` 
+@Input() inputEntry: YourTypeEntry;
+@Output() outputEvent: EventEmitter<string> = new EventEmitter<string>();
+
+sendAnEvent() {
+    const str = 'Hello Parent !';
+    this.outputEvent.emit(str);
+}
+``` 
+

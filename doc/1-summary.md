@@ -1,5 +1,6 @@
 # Tous les sujets abordés
 
+## Astuces
 
 ## Installer un projet.
 
